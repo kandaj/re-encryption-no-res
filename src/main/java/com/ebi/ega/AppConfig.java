@@ -40,20 +40,20 @@ public class AppConfig {
     @Bean
     public DataSource audit() {
         DriverManagerDataSource audit = new DriverManagerDataSource();
-        audit.setDriverClassName(env.getRequiredProperty("audit_test.driverClassName"));
-        audit.setUrl(env.getRequiredProperty("audit_test.url"));
-        audit.setUsername(env.getRequiredProperty("audit_test.user"));
-        audit.setPassword(env.getRequiredProperty("audit_test.password"));
+        audit.setDriverClassName(env.getRequiredProperty("audit.driverClassName"));
+        audit.setUrl(env.getRequiredProperty("audit.url"));
+        audit.setUsername(env.getRequiredProperty("audit.user"));
+        audit.setPassword(env.getRequiredProperty("audit.password"));
         return audit;
     }
 
     @Bean
     public DataSource profiler() {
         DriverManagerDataSource profiler = new DriverManagerDataSource();
-        profiler.setDriverClassName(env.getRequiredProperty("profiler_test.driverClassName"));
-        profiler.setUrl(env.getRequiredProperty("profiler_test.url"));
-        profiler.setUsername(env.getRequiredProperty("profiler_test.user"));
-        profiler.setPassword(env.getRequiredProperty("profiler_test.password"));
+        profiler.setDriverClassName(env.getRequiredProperty("profiler.driverClassName"));
+        profiler.setUrl(env.getRequiredProperty("profiler.url"));
+        profiler.setUsername(env.getRequiredProperty("profiler.user"));
+        profiler.setPassword(env.getRequiredProperty("profiler.password"));
         return profiler;
     }
 }
