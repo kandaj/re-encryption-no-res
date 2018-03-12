@@ -81,7 +81,7 @@ public class MainApp {
 
     public static void updateArchiveStatus(String stableID, DataSource audit) throws SQLException {
         Connection conn = audit.getConnection();
-        PreparedStatement ps = conn.prepareStatement("UPDATE audit_file set archive_status_id=8 where stable_id=?");
+        PreparedStatement ps = conn.prepareStatement("UPDATE audit_file set archive_status_id=14 where stable_id=?");
         try {
             ps.setString(1, stableID);
             ps.executeUpdate();
