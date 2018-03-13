@@ -5,6 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import javax.sql.DataSource;
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class MainApp {
 
     public static HashMap fileIndex;
 
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException, NoSuchAlgorithmException {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
         DataSource audit = context.getBean("audit",DataSource.class);
