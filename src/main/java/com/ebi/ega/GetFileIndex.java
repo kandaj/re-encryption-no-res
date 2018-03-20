@@ -14,45 +14,43 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class GetFileIndex {
     public ArrayList stableIds;
-    public HashMap  getFileIndex(DataSource audit) {
-        stableIds = readInputFile();
-        HashMap fileIndex = new HashMap();
+    public ArrayList  getFileIndex(String stableID,DataSource audit) {
+        ArrayList<Object> temp = new ArrayList<Object>();
         String query = "select * from audit_file where stable_id= ?";
         Connection conn = null;
-        for (int i = 0; i < stableIds.size(); i++) {
-            String stableID  = (String) stableIds.get(i);
-            try {
-                conn = audit.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query);
-                ps.setString(1,  stableID);
-                ResultSet rs = ps.executeQuery();
-                while ( rs.next() )
-                {
-                    EGAFile egaf=new EGAFile(stableID,rs.getString("file_name"),rs.getString("staging_source"),rs.getString("file_type"));
-                    fileIndex.put(stableID,egaf);
-                }
-                rs.close();
-                ps.close();
-                conn.close();
+        try {
+            conn = audit.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1,  stableID);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                EGAFile egaf=new EGAFile(stableID,rs.getString("file_name"),rs.getString("staging_source"),rs.getString("file_type"));
+                temp.add(egaf);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
 
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (conn != null) {
-                    try {
-                        conn.close();
-                    } catch (SQLException e) {}
-                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
             }
         }
-        return (HashMap) fileIndex;
+
+        return (ArrayList) temp;
     }
 
     public ArrayList<String> readInputFile() {

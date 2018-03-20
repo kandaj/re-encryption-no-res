@@ -7,6 +7,16 @@
     <groupId>com.ebi.ega</groupId>
     <artifactId>encryption</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <repositories>
+        <repository>
+            <id>bintray</id>
+            <name>bintray</name>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -37,6 +47,16 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>10.2.0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>name.neuhalfen.projects.crypto.bouncycastle.openpgp</groupId>
+            <artifactId>bouncy-gpg</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.59</version>
         </dependency>
     </dependencies>
     <build>

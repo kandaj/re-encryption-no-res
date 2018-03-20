@@ -50,8 +50,8 @@ public class EGAFile {
             String[] splitArray = file_name.split("/", 2);
             file_name = splitArray[splitArray.length-1];
         }
-
-        return publicSourcePath+this.box+"/"+file_name;
+        return "/Users/kandaj/archive_steps2.txt.gpg";
+//        return publicSourcePath+this.box+"/"+file_name;
     }
 
     public String getProfilerFileName(String file_name) {
@@ -66,7 +66,8 @@ public class EGAFile {
         if(file_name.substring(file_name.length()-4).equals(".gpg")){
             file_name =  file_name.replace(".gpg",".cip");
         }
-        return stagingSourcePath+file_name;
+        return "/Users/kandaj/staging/archive_steps2.txt.cip";
+//        return stagingSourcePath+file_name;
     }
 
     public String getFileBaseName(String file_name){
