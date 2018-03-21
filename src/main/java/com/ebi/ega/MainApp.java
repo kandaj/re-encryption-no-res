@@ -50,18 +50,50 @@ public class MainApp {
 
         fileIndex = new GetFileIndex().getFileIndex(args[0],audit);
 
-        System.out.println(fileIndex);
-
         reEncryptGPGFile(fileIndex,configKeyPath);
         String unEncryptedMD5 = getDecryptMD5(fileIndex,configKeyPath);
-        System.out.println(unEncryptedMD5);
+        String submitterUnencryptMD5 =  (String) ((EGAFile)fileIndex.get(0)).unencryptedMD5;
+        String stagingSource = (String) ((EGAFile)fileIndex.get(0)).stagingSource;
+        String encryptedFileMD5 = (String) getMD5ForFile.getMD5(stagingSource);
+
+
+        if (unEncryptedMD5.equals(submitterUnencryptMD5)){
+            File file = new File(stagingSource);
+            long fileSize = (long) file.length();
+            String fileType = (String) ((EGAFile)fileIndex.get(0)).fileType;
+            String fileStableID = (String) ((EGAFile)fileIndex.get(0)).stableID;
+            String profilerFileName = (String) ((EGAFile)fileIndex.get(0)).profilerFileName;
+
+            System.out.println(profilerFileName);
+            profilerAdaptor.addFile(profilerFileName,encryptedFileMD5,fileSize,fileType,fileStableID,profiler);
+            updateArchiveStatus(fileStableID,profilerFileName, audit);
+            updateAuditMD5(fileStableID,encryptedFileMD5, audit);
+        } else {
+            File stagingFile = new File(stagingSource);
+            stagingFile.delete();
+        }
     }
 
-    public static void updateArchiveStatus(String stableID, DataSource audit) throws SQLException {
+    public static void updateArchiveStatus(String stableID, String fileName, DataSource audit) throws SQLException {
         Connection conn = audit.getConnection();
-        PreparedStatement ps = conn.prepareStatement("UPDATE audit_file set archive_status_id=14 where stable_id=?");
+        PreparedStatement ps = conn.prepareStatement("UPDATE audit_file set archive_status_id=14, file_name=? where stable_id=?");
         try {
-            ps.setString(1, stableID);
+            ps.setString(1, fileName);
+            ps.setString(2, stableID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("file Status for "+stableID+" not updated");
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateAuditMD5(String stableID, String md5, DataSource audit) throws SQLException {
+        Connection conn = audit.getConnection();
+        PreparedStatement ps = conn.prepareStatement("UPDATE audit_md5 set process_step=?, md5_checksum=? where stable_id=?");
+        try {
+            ps.setString(1, "EGA_internal calculated md5");
+            ps.setString(2, md5);
+            ps.setString(3, stableID);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("file Status for "+stableID+" not updated");
@@ -71,7 +103,6 @@ public class MainApp {
 
     public static void reEncryptGPGFile(ArrayList fileIndex, HashMap configKeyPath) throws IOException, NoSuchAlgorithmException {
 
-        String fileBaseName = (String) ((EGAFile)fileIndex.get(0)).baseName;
         String fileSource = (String) ((EGAFile)fileIndex.get(0)).fileSource;
         String stagingSource = (String) ((EGAFile)fileIndex.get(0)).stagingSource;
         String box = (String) ((EGAFile)fileIndex.get(0)).box;
@@ -82,13 +113,11 @@ public class MainApp {
         if(box.equals("ega-box-03")) {
             gpgPassPhrase = new Scanner(new File(configKeyPath.get("sanger_key").toString())).useDelimiter("\\Z").next();
         }
-        String gpgPublicKey = new String(configKeyPath.get("gpg_public_key").toString());
-        String gpgPrivateKey = new String(configKeyPath.get("gpg_private_key").toString());
 
         Security.addProvider(new BouncyCastleProvider());
 
-        File pubFile = new File (gpgPublicKey);
-        File priFile = new File (gpgPrivateKey);
+        File pubFile = new File ( new String(configKeyPath.get("gpg_public_key").toString()));
+        File priFile = new File ( new String(configKeyPath.get("gpg_private_key").toString()));
 
 
         final KeyringConfig keyringConfig = KeyringConfigs
@@ -204,7 +233,6 @@ public class MainApp {
 
         return md5;
     }
-
 
 }
 

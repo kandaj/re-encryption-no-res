@@ -20,8 +20,8 @@ import java.util.HashMap;
 public class GetFileIndex {
     public ArrayList stableIds;
     public ArrayList  getFileIndex(String stableID,DataSource audit) {
-        ArrayList<Object> temp = new ArrayList<Object>();
-        String query = "select * from audit_file where stable_id= ?";
+        ArrayList<Object> fileInfo = new ArrayList<Object>();
+        String query = "select * from audit_file a, audit_md5 m where a.stable_id=? and a.stable_id=m.file_stable_id and m.process_step='Submitter unencrypted md5'";
         Connection conn = null;
         try {
             conn = audit.getConnection();
@@ -30,8 +30,8 @@ public class GetFileIndex {
             ResultSet rs = ps.executeQuery();
             while ( rs.next() )
             {
-                EGAFile egaf=new EGAFile(stableID,rs.getString("file_name"),rs.getString("staging_source"),rs.getString("file_type"));
-                temp.add(egaf);
+                EGAFile egaf=new EGAFile(stableID,rs.getString("file_name"),rs.getString("staging_source"),rs.getString("file_type"),rs.getString("md5_checksum"));
+                fileInfo.add(egaf);
             }
             rs.close();
             ps.close();
@@ -50,7 +50,7 @@ public class GetFileIndex {
             }
         }
 
-        return (ArrayList) temp;
+        return (ArrayList) fileInfo;
     }
 
     public ArrayList<String> readInputFile() {

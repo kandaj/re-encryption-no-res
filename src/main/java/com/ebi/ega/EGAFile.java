@@ -27,11 +27,12 @@ public class EGAFile {
     public String submitterFileName;
     public String fileType;
     public String profilerFileName;
+    public String unencryptedMD5;
     public String stagingSourcePath = "/nfs/ega/public/staging/";
     public String publicSourcePath = "/nfs/ega/public/box/";
 
 
-    public EGAFile(String stableID,String file_name, String box, String file_type) throws IOException {
+    public EGAFile(String stableID,String file_name, String box, String file_type, String unencrypted_md5) throws IOException {
         this.stableID = stableID;
         this.submitterFileName = file_name;
         this.baseName = this.getFileBaseName(file_name);
@@ -41,6 +42,7 @@ public class EGAFile {
         this.stagingSource = this.getStaginSource(file_name);
         this.fileType = file_type;
         this.profilerFileName = this.getProfilerFileName(file_name);
+        this.unencryptedMD5 = unencrypted_md5;
 
 
     }
@@ -50,7 +52,7 @@ public class EGAFile {
             String[] splitArray = file_name.split("/", 2);
             file_name = splitArray[splitArray.length-1];
         }
-        return "/Users/kandaj/archive_steps2.txt.gpg";
+        return "/Users/kandaj/PD10_ZZM_TTC166-20170215.2.clean.fq.gz.gpg";
 //        return publicSourcePath+this.box+"/"+file_name;
     }
 
@@ -66,7 +68,7 @@ public class EGAFile {
         if(file_name.substring(file_name.length()-4).equals(".gpg")){
             file_name =  file_name.replace(".gpg",".cip");
         }
-        return "/Users/kandaj/staging/archive_steps2.txt.cip";
+        return "/Users/kandaj/staging/PD10_ZZM_TTC166-20170215.2.clean.fq.gz.cip";
 //        return stagingSourcePath+file_name;
     }
 
