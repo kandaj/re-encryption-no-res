@@ -1,10 +1,11 @@
 package com.ebi.ega;
 
 import javax.sql.DataSource;
-import java.io.*;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ProfilerAdaptor {
     public DataSource profiler;

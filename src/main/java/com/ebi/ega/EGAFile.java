@@ -1,20 +1,6 @@
 package com.ebi.ega;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.sql.DataSource;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class EGAFile {
 
@@ -52,8 +38,7 @@ public class EGAFile {
             String[] splitArray = file_name.split("/", 2);
             file_name = splitArray[splitArray.length-1];
         }
-        return "/Users/kandaj/PD10_ZZM_TTC166-20170215.2.clean.fq.gz.gpg";
-//        return publicSourcePath+this.box+"/"+file_name;
+        return publicSourcePath+this.box+"/"+file_name;
     }
 
     public String getProfilerFileName(String file_name) {
@@ -68,8 +53,8 @@ public class EGAFile {
         if(file_name.substring(file_name.length()-4).equals(".gpg")){
             file_name =  file_name.replace(".gpg",".cip");
         }
-        return "/Users/kandaj/staging/PD10_ZZM_TTC166-20170215.2.clean.fq.gz.cip";
-//        return stagingSourcePath+file_name;
+
+        return stagingSourcePath+file_name;
     }
 
     public String getFileBaseName(String file_name){

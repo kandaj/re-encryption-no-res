@@ -1,16 +1,9 @@
 package com.ebi.ega;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
 
 public class GetMD5ForFile {
 
@@ -20,7 +13,7 @@ public class GetMD5ForFile {
         MessageDigest digest = MessageDigest.getInstance("MD5");
 
         //Create byte array to read data in chunks
-        byte[] byteArray = new byte[104857600];
+        byte[] byteArray = new byte[4096];
         int bytesCount = 0;
 
         //Read file data and update in message digest

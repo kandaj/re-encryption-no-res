@@ -8,7 +8,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @Configuration
@@ -23,19 +22,19 @@ public class AppConfig {
 
     @Bean
     public HashMap getConfigProperty (){
-        HashMap configuartionKeys = new HashMap();
+        HashMap configurationKeys = new HashMap();
 
-        configuartionKeys.put("internal_key",env.getRequiredProperty("internal_key.path"));
-        configuartionKeys.put("sanger_key",env.getRequiredProperty("sanger_key.path"));
-        configuartionKeys.put("public_key",env.getRequiredProperty("public_key.path"));
-        configuartionKeys.put("gpg_private_key",env.getRequiredProperty("gpg_private_key.path"));
-        configuartionKeys.put("gpg_public_key",env.getRequiredProperty("gpg_public_key.path"));
+        configurationKeys.put("internal_key",env.getRequiredProperty("internal_key.path"));
+        configurationKeys.put("sanger_key",env.getRequiredProperty("sanger_key.path"));
+        configurationKeys.put("public_key",env.getRequiredProperty("public_key.path"));
+        configurationKeys.put("gpg_private_key",env.getRequiredProperty("gpg_private_key.path"));
+        configurationKeys.put("gpg_public_key",env.getRequiredProperty("gpg_public_key.path"));
 
-        return configuartionKeys;
+        return configurationKeys;
     }
 
     @Bean
-    public Encryption encryption (){ return new Encryption();}
+    public ReEncryption reEncryption (){ return new ReEncryption();}
 
     @Bean
     public Decryption decryption (){ return new Decryption();}
