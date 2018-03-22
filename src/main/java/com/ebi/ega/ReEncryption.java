@@ -30,9 +30,9 @@ public class ReEncryption {
 
         String InternalCGPKey = new Scanner(new File(configKeyPath.get("internal_key").toString())).useDelimiter("\\Z").next();
         String gpgPassPhrase = new Scanner(new File(configKeyPath.get("public_key").toString())).useDelimiter("\\Z").next();
-//        if(box.equals("ega-box-03")) {
-//            gpgPassPhrase = new Scanner(new File(configKeyPath.get("sanger_key").toString())).useDelimiter("\\Z").next();
-//        }
+        if(box.equals("ega-box-03")) {
+            gpgPassPhrase = new Scanner(new File(configKeyPath.get("sanger_key").toString())).useDelimiter("\\Z").next();
+        }
 
         Security.addProvider(new BouncyCastleProvider());
 
