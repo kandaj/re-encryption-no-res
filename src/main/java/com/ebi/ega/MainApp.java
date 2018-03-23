@@ -73,6 +73,7 @@ public class MainApp {
             //insert/update internal encrypted md5
             updateAuditMD5(fileStableID,encryptedFileMD5, audit);
         } else {
+            System.out.println("MD5 mismatch deleting staging file ...");
             File stagingFile = new File(stagingSource);
             stagingFile.delete();
         }
