@@ -55,5 +55,9 @@ public class EGAFile {
         }
         return baseName;
     }
+    public String setStagingSource(String stagingPath){
+        this.stagingSource =  stagingPath+this.profilerFileName;
+        return this.stagingSource;
+    }
 
 }
