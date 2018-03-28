@@ -14,7 +14,6 @@ public class EGAFile {
     public String fileType;
     public String profilerFileName;
     public String unencryptedMD5;
-    public String stagingSourcePath = "/nfs/ega/public/staging/";
     public String publicSourcePath = "/nfs/ega/public/box/";
 
 
@@ -25,7 +24,6 @@ public class EGAFile {
         this.box = box;
         this.fileSource = this.getFileSource(file_name);
         this.fileAccession = fileAccession;
-        this.stagingSource = this.getStaginSource(file_name);
         this.fileType = file_type;
         this.profilerFileName = this.getProfilerFileName(file_name);
         this.unencryptedMD5 = unencrypted_md5;
@@ -47,14 +45,6 @@ public class EGAFile {
             file_name =  file_name.replace(".gpg",".cip");
         }
         return file_name;
-    }
-
-    public String getStaginSource(String file_name) {
-        if(file_name.substring(file_name.length()-4).equals(".gpg")){
-            file_name =  file_name.replace(".gpg",".cip");
-        }
-
-        return stagingSourcePath+file_name;
     }
 
     public String getFileBaseName(String file_name){

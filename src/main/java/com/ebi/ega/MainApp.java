@@ -40,8 +40,10 @@ public class MainApp {
 
         Decryption decryption = context.getBean("decryption", Decryption.class);
 
+
         //get file information
         fileIndex = getFileIndex.getFileIndex(args[0],audit);
+
 
         //rencrypt GPG file with internal md5
         reEncryption.ReEncrypt(fileIndex,configKeyPath);
@@ -49,8 +51,9 @@ public class MainApp {
         //get unencrypted md5 for cip file
         String unEncryptedMD5 = decryption.getMD5(fileIndex,configKeyPath);
 
+        String stagingPath = new String(configKeyPath.get("staging_area").toString());
         String submitterUnencryptMD5 =  (String) ((EGAFile)fileIndex.get(0)).unencryptedMD5;
-        String stagingSource = (String) ((EGAFile)fileIndex.get(0)).stagingSource;
+        String stagingSource = (String) stagingPath+((EGAFile)fileIndex.get(0)).profilerFileName;
         String encryptedFileMD5 = (String) getMD5ForFile.getMD5(stagingSource);
 
 

@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
-@PropertySource("file:${config}")
+@PropertySource("classpath:application.properties")
 
 public class AppConfig {
     @Autowired
@@ -24,11 +24,13 @@ public class AppConfig {
     public HashMap getConfigProperty (){
         HashMap configurationKeys = new HashMap();
 
-        configurationKeys.put("internal_key",env.getRequiredProperty("internal_key.path"));
-        configurationKeys.put("sanger_key",env.getRequiredProperty("sanger_key.path"));
-        configurationKeys.put("public_key",env.getRequiredProperty("public_key.path"));
-        configurationKeys.put("gpg_private_key",env.getRequiredProperty("gpg_private_key.path"));
-        configurationKeys.put("gpg_public_key",env.getRequiredProperty("gpg_public_key.path"));
+        configurationKeys.put("internal_key",env.getRequiredProperty("cgpInternalKeyFile"));
+        configurationKeys.put("sanger_key",env.getRequiredProperty("sangerKeyFile"));
+        configurationKeys.put("public_key",env.getRequiredProperty("publicGPGKeyFile"));
+        configurationKeys.put("gpg_private_key",env.getRequiredProperty("gpgPrivateFile"));
+        configurationKeys.put("gpg_public_key",env.getRequiredProperty("gpgPublicFile"));
+        configurationKeys.put("gpg_public_key",env.getRequiredProperty("gpgPublicFile"));
+        configurationKeys.put("staging_area",env.getRequiredProperty("stagingArea.dir"));
 
         return configurationKeys;
     }
@@ -50,20 +52,20 @@ public class AppConfig {
     @Bean
     public DataSource audit() {
         DriverManagerDataSource audit = new DriverManagerDataSource();
-        audit.setDriverClassName(env.getRequiredProperty("audit.driverClassName"));
-        audit.setUrl(env.getRequiredProperty("audit.url"));
-        audit.setUsername(env.getRequiredProperty("audit.user"));
-        audit.setPassword(env.getRequiredProperty("audit.password"));
+        audit.setDriverClassName(env.getRequiredProperty("auditDriverClassName"));
+        audit.setUrl(env.getRequiredProperty("auditConnection"));
+        audit.setUsername(env.getRequiredProperty("auditUser"));
+        audit.setPassword(env.getRequiredProperty("auditPassword"));
         return audit;
     }
 
     @Bean
     public DataSource profiler() {
         DriverManagerDataSource profiler = new DriverManagerDataSource();
-        profiler.setDriverClassName(env.getRequiredProperty("profiler.driverClassName"));
-        profiler.setUrl(env.getRequiredProperty("profiler.url"));
-        profiler.setUsername(env.getRequiredProperty("profiler.user"));
-        profiler.setPassword(env.getRequiredProperty("profiler.password"));
+        profiler.setDriverClassName(env.getRequiredProperty("profilerClassName"));
+        profiler.setUrl(env.getRequiredProperty("profilerConnection"));
+        profiler.setUsername(env.getRequiredProperty("profilerUser"));
+        profiler.setPassword(env.getRequiredProperty("profilerPassword"));
         return profiler;
     }
 }
